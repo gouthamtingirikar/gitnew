@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+metadata:
+  name: nginx-deployment
+  labels:
+     type: proxy
+spec:
+  replicas: 2
+  selector:
+     matchLabels:
+        type: proxy
+  template:
+     metadata:
+        name: nginx-pod
+        labels:
+           type: proxy
+     spec:
+        containers:
+            - name: mynginx
+              image: nginx
+...
+  
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: nginx-service
+   labels:
+      type: proxy
+spec:
+    type: LoadBalancer
+    ports:
+      - targetPort: 80
+        port: 80
+        nodePort: 30008
+    selector:
+        type: proxy
+                    
+
+
+
+
+
+ kops create cluster \
+> --state=${KOPS_STATE_STORE} \
+> --node-count=2 \
+> --master-size=t3.medium \
+> --node-size=t3.medium \
+> --zones=us-east-1a \
+> --name=${KOPS_CLUSTER_NAME} \
+> --dns private \
+> --master-count 1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  

@@ -1,0 +1,5 @@
+eksctl create cluster --name myeks-cluster \
+--region us-east-1 \
+--node-type t2.micro \
+--nodes 3 \
+--zones us-east-1a,us-east-1b
